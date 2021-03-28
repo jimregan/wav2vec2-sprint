@@ -1,6 +1,13 @@
 #!/usr/bin/perl
 # License: Apache-2.0
 
+use warnings;
+use strict;
+use utf8;
+
+binmode(STDIN, ":utf8");
+binmode(STDOUT, ":utf8");
+
 my %dialects = (
     'U' => 'ulster',
     'C' => 'connacht',
@@ -51,7 +58,7 @@ my %fixM = (
     'zónáilte' => 'zónáilthe',
     'seinn' => 'seinm',
     'pionós' => 'píonós',
-    'feidhmiú teanga' => 'feidhmiú teangan'
+    'feidhmiú teanga' => 'feidhmiú teangan',
     'teorainn' => 'teora',
 );
 
@@ -124,7 +131,7 @@ while(<STDIN>) {
     my $dialect = '';
     my $dialect_name = '';
     if($file =~ /\/Can([UMC])\//) {
-        my $dialect = $1;
+        $dialect = $1;
         $dialect_name = $dialects{$dialect};
     } else {
         next;
@@ -136,7 +143,20 @@ while(<STDIN>) {
         $url = $1;
         next if(exists $empty_list{$url});
     }
-    my $transcript = $parts[$#parts];
-    $transcript =~ s/\.mp3$//;
-    print "{\"path\": \"$file\", \"accent\": \"$dialect_name\", \"sentence\": \"$transcript\"}\n";
+    my $text = $parts[$#parts];
+    print STDERR "TEXT: $text\n";
+    $text =~ s/\.mp3$//;
+    my $outtext = $text;
+    if(/éigin$/) {
+        if($dialect ne 'M' || ($dialect eq 'M' && ($text ne 'éigin' && $text ne 'am éigin'))) {
+            my $replacement = get_replacement('éigin', $dialect);
+            $text =~ s/éigin/$replacement/;
+            $outtext = clean("$text");
+        } else {
+            $outtext = clean("$text");
+        }
+    } else {
+        $outtext = clean(get_replacement($text, $dialect));
+    }
+    print "{\"path\": \"$file\", \"accent\": \"$dialect_name\", \"sentence\": \"$outtext\"}\n";
 }
