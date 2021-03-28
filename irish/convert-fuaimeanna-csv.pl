@@ -25,8 +25,11 @@ my %cr_files = (
 	'shmear' => 'smear',
 	'deamhain' => 'diabhail'
 );
-
-print '"path", "accent", "sentence"' . "\n";
+if($FULL) {
+	print '"path", "accent", "sentence"' . "\n";
+} else {
+	print '"path", "sentence"' . "\n";
+}
 while(<STDIN>) {
 	chomp;
 	my @line = split/\t/;
