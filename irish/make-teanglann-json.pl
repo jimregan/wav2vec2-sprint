@@ -136,7 +136,7 @@ while(<STDIN>) {
     } else {
         next;
     }
-    $file =~ s/'/\\'/g;
+    #$file =~ s/'/\\'/g;
     my @parts = split/\//, $file;
     my $url = '';
     if($file =~ /.*(www.*)$/) {
@@ -145,6 +145,14 @@ while(<STDIN>) {
     }
     my $text = $parts[$#parts];
     $text =~ s/\.mp3$//;
+    my $ofile = $file;
+    $ofile =~ s/[ '!]/_/g;
+    open(GENSH, '>>', 'mover.sh');
+    binmode(GENSH, ":utf8");
+    if($ofile ne $file) {
+        print GENSH "mv \"$file\" \"$ofile\"\n";
+        $file = $ofile;
+    }
     my $outtext = $text;
     if(/éigin$/) {
         if($dialect ne 'M' || ($dialect eq 'M' && ($text ne 'éigin' && $text ne 'am éigin'))) {
@@ -157,5 +165,7 @@ while(<STDIN>) {
     } else {
         $outtext = clean(get_replacement($text, $dialect));
     }
-    print "{\"path\": \"$file\", \"accent\": \"$dialect_name\", \"sentence\": \"$outtext\"}\n";
+    #$outtext =~ s/'/\'/g;
+    #print "{\"accent\": \"$dialect_name\", \"path\": \"$file\", \"sentence\": \"$outtext\"}\n";
+    print "{\"path\": \"$file\", \"sentence\": \"$outtext\"}\n";
 }
