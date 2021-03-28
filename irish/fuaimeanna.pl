@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# License: Apache 2.0
 # Scrapes sounds from fuaimeanna.ie
 # Creates a set of labels in 'label/' (which must exist)
 # along with three files:
