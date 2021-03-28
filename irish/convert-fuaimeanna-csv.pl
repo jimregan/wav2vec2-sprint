@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# License: Apache 2.0
 
 use warnings;
 use strict;
@@ -23,7 +24,7 @@ my %cr_files = (
 	'deamhain' => 'diabhail'
 );
 
-print '"path", "dialect", "transcript"' . "\n";
+print '"path", "accent", "sentence"' . "\n";
 while(<STDIN>) {
 	chomp;
 	my @line = split/\t/;
