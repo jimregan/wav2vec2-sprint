@@ -8,6 +8,8 @@ use utf8;
 binmode(STDIN, ":utf8");
 binmode(STDOUT, ":utf8");
 
+my $FULL=0;
+
 my $base='.';
 if($ARGV[0] && $ARGV[0] ne '') {
 	$base = $ARGV[0];
@@ -30,12 +32,23 @@ while(<STDIN>) {
 	my @line = split/\t/;
 	next if($line[0] eq 'Orthographic');
 	my $text = $line[0];
-	print "\"$base$line[1]\", \"ulster\", \"$text\"\n";
-	print "\"$base$line[3]\", \"connacht\","; 
-	if(exists $cr_files{$text}) {
-		print "\"$cr_files{$text}\"\n";
+	if($FULL) {
+		print "\"$base$line[1]\", \"ulster\", \"$text\"\n";
+		print "\"$base$line[3]\", \"connacht\", "; 
+		if(exists $cr_files{$text}) {
+			print "\"$cr_files{$text}\"\n";
+		} else {
+			print "\"$text\"\n";
+		}
+		print "\"$base$line[5]\", \"munster\", \"$text\"\n";
 	} else {
-		print "\"$text\"\n";
+		print "\"$base$line[1]\", \"$text\"\n";
+		print "\"$base$line[3]\", "; 
+		if(exists $cr_files{$text}) {
+			print "\"$cr_files{$text}\"\n";
+		} else {
+			print "\"$text\"\n";
+		}
+		print "\"$base$line[5]\", \"$text\"\n";
 	}
-	print "\"$base$line[5]\", \"munster\", \"$text\"\n";
 }
