@@ -40,6 +40,8 @@ my %fixC = (
     'feidhmiú teanga' => 'feidhmiú teangan',
     'gnóthach' => 'gnathach',
     'bláthanna' => 'bláthannaí',
+    'ceap bláthanna' => 'ceap bláthannaí',
+    'ceapach bláthanna' => 'ceapach bláthannaí',
 );
 my %fixM = (
     'éigin' => 'éigint',
