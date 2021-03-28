@@ -127,7 +127,7 @@ my %empty_list = (
 #print '"path","dialect","sentence"' . "\n";
 while(<STDIN>) {
     chomp;
-    my $file = $base . '/' . $_;
+    my $file = $_;
     my $dialect = '';
     my $dialect_name = '';
     if($file =~ /\/Can([UMC])\//) {
@@ -144,7 +144,6 @@ while(<STDIN>) {
         next if(exists $empty_list{$url});
     }
     my $text = $parts[$#parts];
-    print STDERR "TEXT: $text\n";
     $text =~ s/\.mp3$//;
     my $outtext = $text;
     if(/éigin$/) {
