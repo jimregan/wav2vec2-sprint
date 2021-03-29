@@ -28,13 +28,14 @@ my %cr_files = (
 if($FULL) {
 	print '"path", "accent", "sentence"' . "\n";
 } else {
-	print '"path", "sentence"' . "\n";
+	print '"path","sentence"' . "\n";
 }
 while(<STDIN>) {
 	chomp;
 	my @line = split/\t/;
 	next if($line[0] eq 'Orthographic');
 	my $text = $line[0];
+	next if($line[0] eq "d'fhág");
 	if($FULL) {
 		print "\"$base$line[1]\", \"ulster\", \"$text\"\n";
 		print "\"$base$line[3]\", \"connacht\", "; 
@@ -45,13 +46,13 @@ while(<STDIN>) {
 		}
 		print "\"$base$line[5]\", \"munster\", \"$text\"\n";
 	} else {
-		print "\"$base$line[1]\", \"$text\"\n";
-		print "\"$base$line[3]\", "; 
+		print "\"$base$line[1]\",\"$text\"\n";
+		print "\"$base$line[3]\","; 
 		if(exists $cr_files{$text}) {
 			print "\"$cr_files{$text}\"\n";
 		} else {
 			print "\"$text\"\n";
 		}
-		print "\"$base$line[5]\", \"$text\"\n";
+		print "\"$base$line[5]\",\"$text\"\n";
 	}
 }
