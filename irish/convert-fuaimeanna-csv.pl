@@ -43,15 +43,27 @@ while(<STDIN>) {
 	my $text = $line[0];
 	next if($line[0] eq "d'fhág");
 	if($FULL) {
-		print "\"$base$line[1]\", \"ulster\", \"$text\"\n";
-		print "\"$base$line[3]\", \"connacht\", "; 
+		if($text eq 'Gaeilge') {
+			print "\"$base$line[1]\",\"ulster\",\"gaeilic\"\n";
+			print "\"$base$line[3]\",\"connacht\",\"gaeilge\"\n";
+			print "\"$base$line[5]\",\"munster\",\"gaelainn\"\n";
+			next;
+		}
+		print "\"$base$line[1]\",\"ulster\",\"$text\"\n";
+		print "\"$base$line[3]\",\"connacht\","; 
 		if(exists $cr_files{$text}) {
 			print "\"$cr_files{$text}\"\n";
 		} else {
 			print "\"$text\"\n";
 		}
-		print "\"$base$line[5]\", \"munster\", \"$text\"\n";
+		print "\"$base$line[5]\",\"munster\",\"$text\"\n";
 	} else {
+		if($text eq 'Gaeilge') {
+			print "\"$base$line[1]\",\"gaeilic\"\n";
+			print "\"$base$line[3]\",\"gaeilge\"\n";
+			print "\"$base$line[5]\",\"gaelainn\"\n";
+			next;
+		}
 		print "\"$base$line[1]\",\"$text\"\n";
 		if(!exists $empty{$line[3]}) {
 			print "\"$base$line[3]\",";
